@@ -1,0 +1,19 @@
+{
+  "name": "github-search",
+  "version": "1.0.0",
+  "description": "Searches girhub for top repositories",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "github",
+    "search",
+    "stars"
+  ],
+  "author": "trion",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
