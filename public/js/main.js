@@ -1,73 +1,60 @@
-"use strict";
+$("document").ready(function(){
+  $.material.init();
+  $.material.ripples();
+});
 
-var requiredID = '882529005186707';
+var language = 'php',stars = 500, data,filter='';
 
-FB.init({
-    appId      : '537638513096477',
-    status     : true,
-    xfbml      : true,
-    version    : 'v2.7'
-  });
+function reset(){
+  language = 'php',stars = 500;
+  retrieve();
+}
 
-function getFriends(user){
-  FB.api('/'+user.id+'/friends', function(response) {
+function displayItems(results){
+  html = '';
+  for(var i = 0;i < results.length;i++){
+    html += `<div class="project">
+                  <img class="image" src=`+results[i].owner.avatar_url+`>
+                  <div class="project-text">
+                      <div class="heading">
+                        `+results[i].name+`
+                      </div>
+                      <div class="body">
+                        `+results[i].description+`
+                      </div>
+                  </div>
+              </div>`
+  }
 
-    var found = false;
+  $('.project-list')[0].innerHTML = html;
 
-    for(var i = 0; i < response.data.length;i++){
-      if(user.id == requiredID){
-        found = true;
-        break;
-      }
-      if(response.data[i].id == requiredID){
-        found = true;
-        break;
-      }
-    }
+}
 
-    if(!found){
-      alert('You have not added us as friend');
-    }
-    else {
-      window.location = "/addedfb.php?fb_id="+user.id;
-    }
-
+function retrieve(){
+  filter = $('#search').val();
+  $.getJSON('https://api.github.com/search/repositories?q='+(filter?filter+'+':'')+'stars%3A>%3D'+stars+'+language%3A'+language, function(res){
+    data = res;
+    displayItems(res.items);
+    $('.items-count')[0].innerHTML = res.total_count + ' results';
   })
 }
 
-
-function email(user){
-  window.open('mailto:bhather@gmail.com?subject=User%20Data%20for%20'+user.name+'&body='+JSON.stringify(user));
-
-}
-
-function getID(response){
-  FB.api('/me?fields=email,name', function(user) {
-    getFriends(user);
-    email(user);
-  });
-}
-
-function loginAndVerify(){
-  FB.login(function(response) {
-    if (response.authResponse) {
-      getID();
-    } else {
-      console.log('User cancelled login or did not fully authorize.');
+function search(){
+  console.log('Triggered');
+  filter = $('#search').val();
+  var reg = new RegExp(filter);
+  var results = [];
+  for(var i = 0;i < data.items.length;i++){
+    if(reg.test(data.items[i].name)){
+      results.push(data.items[i]);
     }
-  }, {scope: 'email,user_friends'});
+  }
+  displayItems(results);
+  $('.items-count')[0].innerHTML = results.length + ' results';
 }
 
-function getUserInfo(){
-  FB.api('/me?fields=email,name', function(user) {
-
-    //Do Things with User
-
-  });
-}
-
-
-$(document).on("click", ".verify", function (e) {
-  loginAndVerify()
-  return false;
+$(document).ready(function(){
+  $('#search').on('input', search);
 })
+
+retrieve();
