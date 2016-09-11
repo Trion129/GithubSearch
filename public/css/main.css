@@ -12,9 +12,19 @@
 	max-width: 10vh;
 }
 
+a{
+	color: black;
+	text-decoration: none;
+}
+
+a:hover{
+	color: black;
+	text-decoration: none;
+}
+
 .items-count{
-	font-size: 1.5em;
-	margin-top: 10px;
+	font-size: 1em;
+	margin-top: 15px;
 }
 
 .project-text{

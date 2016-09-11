@@ -6,14 +6,14 @@ $("document").ready(function(){
 var language = 'None',stars = 500, data,filter='';
 
 function reset(){
-  language = 'php',stars = 500;
+  language = 'None',stars = 500;
   retrieve();
 }
 
 function displayItems(results){
   html = '';
   for(var i = 0;i < results.length;i++){
-    html += `<div class="project">
+    html += `<a href="`+results[i].html_url+`"><div class="project">
                   <img class="image" src=`+results[i].owner.avatar_url+`>
                   <div class="project-text">
                       <div class="heading">
@@ -23,7 +23,7 @@ function displayItems(results){
                         `+results[i].description+`
                       </div>
                   </div>
-              </div>`
+              </div></a>`
   }
 
   $('.project-list')[0].innerHTML = html;
@@ -32,10 +32,10 @@ function displayItems(results){
 
 function retrieve(){
   filter = $('#search').val();
-  $.getJSON('https://api.github.com/search/repositories?q='+(filter?filter+'+':'')+'stars%3A>%3D'+stars+(language != 'None'?'+language%3A'+language:''), function(res){
+  $.getJSON('https://api.github.com/search/repositories?q='+(filter?filter+'+':'')+'stars%3A>%3D'+stars+(language != 'None'?'+language%3A'+language:'')+'&page=1&per_page=100', function(res){
     data = res;
     displayItems(res.items);
-    $('.items-count')[0].innerHTML = res.total_count + ' results';
+    $('.items-count')[0].innerHTML = res.total_count + ' results ' + (res.total_count > 100?'(100 shown)':'');
   })
 }
 
