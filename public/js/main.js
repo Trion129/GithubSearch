@@ -5,15 +5,10 @@ $("document").ready(function(){
 
 var language = 'None',stars = 500, data,filter='';
 
-function reset(){
-  language = 'None',stars = 500;
-  retrieve();
-}
-
 function displayItems(results){
   html = '';
   for(var i = 0;i < results.length;i++){
-    html += `<a href="`+results[i].html_url+`"><div class="project">
+    html += `<a target="_blank" href="`+results[i].html_url+`"><div class="project">
                   <img class="image" src=`+results[i].owner.avatar_url+`>
                   <div class="project-text">
                       <div class="heading">
@@ -62,6 +57,13 @@ $(document).ready(function(){
   })
   $(document).on('change','select',function(){
     language = $(this).val();
+    retrieve();
+  })
+  $('#reset').on('click',function(){
+    language = 'None',stars = 500;
+    $('input[name="stars"]').val('500');
+    $('#search').val('');
+    $('select').val('None');
     retrieve();
   })
 })
