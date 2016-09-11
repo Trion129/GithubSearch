@@ -1,0 +1,55 @@
+.project{
+	display:flex;
+	flex-direction: row;
+	min-width: 12vh;
+	background-color: white;
+	border-radius: 5px;
+	padding: 3%;
+}
+
+.project img{
+	height: 10vh;
+	max-width: 10vh;
+}
+
+.items-count{
+	font-size: 1.5em;
+	margin-top: 10px;
+}
+
+.project-text{
+	margin-left: 10px;
+	width: 85%;
+}
+
+.project-list{
+	margin: 2% 0 0 2%;
+}
+
+.in li{
+	margin: 1%;
+}
+
+.heading{
+	text-transform: capitalize;
+	background: #ebebeb;
+	width:100%;
+	padding: 5px;
+}
+
+.page-content{
+	margin-top: 6vh;
+}
+
+select{
+	background-color: white;
+}
+
+.settings{
+	margin-left: -23px;
+	width: inherit;
+	position: fixed;
+	background-color: #3f7ebf;
+	color: white;
+	text-align: center;
+}

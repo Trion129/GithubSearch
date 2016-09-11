@@ -3,7 +3,7 @@ $("document").ready(function(){
   $.material.ripples();
 });
 
-var language = 'php',stars = 500, data,filter='';
+var language = 'None',stars = 500, data,filter='';
 
 function reset(){
   language = 'php',stars = 500;
@@ -32,7 +32,7 @@ function displayItems(results){
 
 function retrieve(){
   filter = $('#search').val();
-  $.getJSON('https://api.github.com/search/repositories?q='+(filter?filter+'+':'')+'stars%3A>%3D'+stars+'+language%3A'+language, function(res){
+  $.getJSON('https://api.github.com/search/repositories?q='+(filter?filter+'+':'')+'stars%3A>%3D'+stars+(language != 'None'?'+language%3A'+language:''), function(res){
     data = res;
     displayItems(res.items);
     $('.items-count')[0].innerHTML = res.total_count + ' results';
@@ -54,7 +54,16 @@ function search(){
 }
 
 $(document).ready(function(){
-  $('#search').on('input', search);
+  $('#search').on('change', retrieve);
+  $('input[name="stars"]').on('change',function(){
+    stars = $(this).val();
+    $('#starCount')[0].innerHTML = 'Min Stars : ' + stars;
+    retrieve();
+  })
+  $(document).on('change','select',function(){
+    language = $(this).val();
+    retrieve();
+  })
 })
 
 retrieve();
